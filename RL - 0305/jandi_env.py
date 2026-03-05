@@ -248,12 +248,12 @@ class JandiRobot(LeggedRobot):
         right = self.dof_pos[:, 6:12]
         # DOF order: [hip_pitch, hip_roll, hip_yaw, knee, ankle_pitch, ankle_roll]
         err = torch.stack([
-            left[:, 0] + right[:, 0],  # hip_yaw
-            left[:, 1] - right[:, 1],  # hip_roll
-            left[:, 2] + right[:, 2],  # hip_pitch
-            left[:, 3] + right[:, 3],  # knee
-            left[:, 4] + right[:, 4],  # ankle_pitch
-            left[:, 5] + right[:, 5],  # ankle_roll
+            left[:, 0] + right[:, 0],  # hip_yaw    -  <<< G1 기준
+            left[:, 1] - right[:, 1],  # hip_roll    +
+            left[:, 2] + right[:, 2],  # hip_pitch    +
+            left[:, 3] + right[:, 3],  # knee    -
+            left[:, 4] + right[:, 4],  # ankle_pitch    -
+            left[:, 5] + right[:, 5],  # ankle_roll    +
         ], dim=1)
         return torch.sum(torch.square(err), dim=1)
 
